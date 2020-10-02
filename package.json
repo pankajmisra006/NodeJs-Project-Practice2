@@ -16,9 +16,8 @@
     "moment": "^2.28.0",
     "randomatic": "^3.1.1",
     "socket.io": "^2.3.0",
-    "recordrtc": "latest",
-    "rtcmulticonnection-server": "latest",
+
+    "rtcmulticonnection-server": "latest"
     
-    "webrtc-adapter": "latest"
   }
 }
