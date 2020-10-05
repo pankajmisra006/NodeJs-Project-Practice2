@@ -203,9 +203,7 @@ connection.onstream = function(event) {
     mediaElement.id = event.streamid;
 
     // to keep room-id in cacheconnectToNewUser
-    localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
 
-    chkRecordConference.parentNode.style.display = 'none';
 
     // if(chkRecordConference.checked === true) {
     //   btnStopRecording.style.display = 'inline-block';
