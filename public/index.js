@@ -10,6 +10,89 @@
 var connection = new RTCMultiConnection();
 
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+connection.session = {
+  audio: true,
+  video: true
+};
+
+connection.sdpConstraints.mandatory = {
+  OfferToReceiveAudio: true,
+  OfferToReceiveVideo: true
+};
+
+
+var bitrates = 512;
+var resolutions = 'HD';
+var videoConstraints = {};
+
+if (resolutions == 'HD') {
+    videoConstraints = {
+        width: {
+            ideal: 1280
+        },
+        height: {
+            ideal: 720
+        },
+        frameRate: 30
+    };
+}
+
+if (resolutions == 'Ultra-HD') {
+    videoConstraints = {
+        width: {
+            ideal: 1920
+        },
+        height: {
+            ideal: 1080
+        },
+        frameRate: 30
+    };
+}
+
+connection.mediaConstraints = {
+    video: videoConstraints,
+    audio: true
+};
+
+var CodecsHandler = connection.CodecsHandler;
+
+connection.processSdp = function(sdp) {
+    var codecs = 'vp8';
+    
+    if (codecs.length) {
+        sdp = CodecsHandler.preferCodec(sdp, codecs.toLowerCase());
+    }
+
+    if (resolutions == 'HD') {
+        sdp = CodecsHandler.setApplicationSpecificBandwidth(sdp, {
+            audio: 128,
+            video: bitrates,
+            screen: bitrates
+        });
+
+        sdp = CodecsHandler.setVideoBitrates(sdp, {
+            min: bitrates * 8 * 1024,
+            max: bitrates * 8 * 1024,
+        });
+    }
+
+    if (resolutions == 'Ultra-HD') {
+        sdp = CodecsHandler.setApplicationSpecificBandwidth(sdp, {
+            audio: 128,
+            video: bitrates,
+            screen: bitrates
+        });
+
+        sdp = CodecsHandler.setVideoBitrates(sdp, {
+            min: bitrates * 8 * 1024,
+            max: bitrates * 8 * 1024,
+        });
+    }
+
+    return sdp;
+};
+
 // use your own TURN-server here!
 // connection.iceServers = [{
 //     'urls': [
@@ -19,6 +102,9 @@ connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 //         'stun:stun.l.google.com:19302?transport=udp',
 //     ]
 //   }];
+
+
+
 
 
 // first step, ignore default STUN+TURN servers
