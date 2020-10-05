@@ -134,12 +134,7 @@ $( document ).ready(function() {
 console.log(connection)
 $('#open-room').on('click',function(){
 
-    connection.open($('#room-id').val(), function(isRoomExist, roomid) {
-        if (isRoomExist === true) {
-        } else {
-            
-        }
-    });
+    connection.open($('#room-id').val());
    
 
 })
