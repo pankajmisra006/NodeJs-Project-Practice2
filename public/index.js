@@ -166,20 +166,20 @@ connection.onstream = function(event) {
     event.mediaElement.volume = 0;
 
     var video = document.createElement('video');
-    //event.mediaElement.setAttributeNode(document.createAttribute('autoplay'));
-    //event.mediaElement.setAttributeNode(document.createAttribute('playsinline'));
-    //event.mediaElement.setAttributeNode(document.createAttribute('controls'));
-    try {
-      video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('autoplay')))
-      video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('playline')))
-      video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('controls')))
+    event.mediaElement.setAttributeNode(document.createAttribute('autoplay'));
+    event.mediaElement.setAttributeNode(document.createAttribute('playsinline'));
+    event.mediaElement.setAttributeNode(document.createAttribute('controls'));
+   // try {
+      //video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('autoplay')))
+      //video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('playline')))
+      //video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('controls')))
 
-        //video.setAttributeNode(document.createAttribute('autoplay'));
+       // video.setAttributeNode(document.createAttribute('autoplay'));
         //video.setAttributeNode(document.createAttribute('playsinline'));
-    } catch (e) {
-        video.setAttribute('autoplay', true);
-        video.setAttribute('playsinline', true);
-    }
+    //} catch (e) {
+        //video.setAttribute('autoplay', true);
+        //video.setAttribute('playsinline', true);
+    //}
 
 
 //     var screenTrack = screenStream.getVideoTracks()[0];
