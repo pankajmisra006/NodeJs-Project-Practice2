@@ -8,20 +8,6 @@
 
 
 var connection = new RTCMultiConnection();
-
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
-connection.session = {
-  audio: true,
-  video: true
-};
-
-connection.sdpConstraints.mandatory = {
-  OfferToReceiveAudio: true,
-  OfferToReceiveVideo: true
-};
-
-
 var bitrates = 512;
 var resolutions = 'HD';
 var videoConstraints = {};
@@ -93,6 +79,23 @@ connection.processSdp = function(sdp) {
     return sdp;
 };
 
+
+
+
+connection.session = {
+  audio: true,
+  video: true
+};
+
+connection.sdpConstraints.mandatory = {
+  OfferToReceiveAudio: true,
+  OfferToReceiveVideo: true
+};
+
+
+
+connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
 // use your own TURN-server here!
 // connection.iceServers = [{
 //     'urls': [
@@ -118,7 +121,7 @@ connection.iceServers.push({
 // last step, set TURN url (recommended)
 connection.iceServers.push({
   
-urls: 'turn:numb.viagenie.ca',
+url: 'turn:numb.viagenie.ca',
 credential: 'muazkh',
 username: 'webrtc@live.com'
 
@@ -168,14 +171,25 @@ connection.onstream = function(event) {
     event.mediaElement.volume = 0;
 
     var video = document.createElement('video');
+    event.mediaElement.setAttributeNode(document.createAttribute('autoplay'));
+    event.mediaElement.setAttributeNode(document.createAttribute('playsinline'));
+    event.mediaElement.setAttributeNode(document.createAttribute('controls'));
+    // try {
+    //     video.setAttributeNode(document.createAttribute('autoplay'));
+    //     video.setAttributeNode(document.createAttribute('playsinline'));
+    // } catch (e) {
+    //     video.setAttribute('autoplay', true);
+    //     video.setAttribute('playsinline', true);
+    // }
 
-    try {
-        video.setAttributeNode(document.createAttribute('autoplay'));
-        video.setAttributeNode(document.createAttribute('playsinline'));
-    } catch (e) {
-        video.setAttribute('autoplay', true);
-        video.setAttribute('playsinline', true);
-    }
+
+//     var screenTrack = screenStream.getVideoTracks()[0];
+
+// // replace across all users
+// connection.replaceTrack(screenTrack);
+
+// replace for a specific user only
+//connection.replaceTrack(screenTrack, 'specific-user-id');
 
     if(event.type === 'local') {
       video.volume = 0;
@@ -246,9 +260,29 @@ connection.onstreamended = function(event) {
   };
   
 
+  connection.onPeerStateChanged = function(state) {
+    
+    if (state.iceConnectionState.search(/closed|failed/gi) !== -1) {
+        console.error('Peer connection is closed between you & ', state.userid, state.extra, 'state:', state.iceConnectionState);
+    }
+};
+
 
 });
 
+
+// connection.getAllParticipants().forEach(function(pid) {
+//   var userObject = connection.peers[pid];
+//   var nativePeer = userObject.peer;
+//   nativePeer.getSenders().forEach(function(sender) {
+//       if(sender.track.kind === 'video') {
+//            sender.removeTrack(sender.track);
+
+//            // you can also check for track.id
+//            // if(sender.track.id === 'stream-id-or-track-id') {}
+//       }
+//   });
+// });
 
 function addVideoStream(video, stream,streamid) {
     video.srcObject = stream
