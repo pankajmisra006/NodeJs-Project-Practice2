@@ -3,22 +3,46 @@
 // var _myVideo = document.createElement('video')
 // _myVideo.muted = true;
 
+
+
+
+
 var connection = new RTCMultiConnection();
 
 connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 // use your own TURN-server here!
-connection.iceServers = [{
-    'urls': [
-        'stun:stun.l.google.com:19302',
-        'stun:stun1.l.google.com:19302',
-        'stun:stun2.l.google.com:19302',
-        'stun:stun.l.google.com:19302?transport=udp',
-    ]
-  }];
+// connection.iceServers = [{
+//     'urls': [
+//         'stun:stun.l.google.com:19302',
+//         'stun:stun1.l.google.com:19302',
+//         'stun:stun2.l.google.com:19302',
+//         'stun:stun.l.google.com:19302?transport=udp',
+//     ]
+//   }];
+
+
+// first step, ignore default STUN+TURN servers
+connection.iceServers = [];
+
+// second step, set STUN url
+connection.iceServers.push({
+  urls: 'stun:stun.l.google.com:19302'
+});
+
+// last step, set TURN url (recommended)
+connection.iceServers.push({
+  
+urls: 'turn:numb.viagenie.ca',
+credential: 'muazkh',
+username: 'webrtc@live.com'
+
+});
+
+
  
 $( document ).ready(function() {
 
-
+console.log(connection)
 $('#open-room').on('click',function(){
 
     connection.open($('#room-id').val(), function(isRoomExist, roomid) {
