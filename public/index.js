@@ -195,9 +195,9 @@ connection.onstream = function(event) {
 
     connection.videosContainer.appendChild(mediaElement);
 
-    setTimeout(function() {
-        mediaElement.media.play();
-    }, 5000);
+    // setTimeout(function() {
+    //     mediaElement.media.play();
+    // }, 5000);
 
     mediaElement.id = event.streamid;
 
@@ -269,12 +269,5 @@ connection.onstreamended = function(event) {
 //   });
 // });
 
-function addVideoStream(video, stream,streamid) {
-    video.srcObject = stream
-    video.setAttribute("id", streamid);
-    video.addEventListener('loadedmetadata', () => {
-      video.play()
-    })
-    _videoGrid.append(video)
-  }
+
 
