@@ -115,7 +115,13 @@ connection.iceServers = [];
 
 // second step, set STUN url
 connection.iceServers.push({
-  urls: 'stun:stun.l.google.com:19302'
+  urls:[ 'stun:stun.l.google.com:19302',
+          'stun:stun1.l.google.com:19302',
+           'stun:stun2.l.google.com:19302',
+            'stun:stun.l.google.com:19302?transport=udp',
+
+
+       ]
 });
 
 // last step, set TURN url (recommended)
@@ -380,9 +386,10 @@ function showLocalVideo(event){
 
     connection.videosContainer.appendChild(mediaElement);
 
-    // setTimeout(function() {
-    //     mediaElement.media.play();
-    // }, 5000);
+ 
+    setTimeout(function() {
+        mediaElement.media.play();
+    }, 5000);
 
     mediaElement.id = event.streamid;
 
