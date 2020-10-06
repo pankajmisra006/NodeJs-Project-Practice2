@@ -166,29 +166,14 @@ connection.onstream = function(event) {
     event.mediaElement.volume = 0;
 
     var video = document.createElement('video');
-    //event.mediaElement.setAttributeNode(document.createAttribute('autoplay'));
-    //event.mediaElement.setAttributeNode(document.createAttribute('playsinline'));
-    //event.mediaElement.setAttributeNode(document.createAttribute('controls'));
-   try {
-      //video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('autoplay')))
-      //video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('playline')))
-      //video.setAttributeNode( event.mediaElement.setAttributeNode(document.createAttribute('controls')))
 
-       video.setAttributeNode(document.createAttribute('autoplay'));
+    try {
+        video.setAttributeNode(document.createAttribute('autoplay'));
         video.setAttributeNode(document.createAttribute('playsinline'));
     } catch (e) {
         video.setAttribute('autoplay', true);
         video.setAttribute('playsinline', true);
     }
-
-
-//     var screenTrack = screenStream.getVideoTracks()[0];
-
-// // replace across all users
-// connection.replaceTrack(screenTrack);
-
-// replace for a specific user only
-//connection.replaceTrack(screenTrack, 'specific-user-id');
 
     if(event.type === 'local') {
       video.volume = 0;
@@ -202,9 +187,10 @@ connection.onstream = function(event) {
 
     var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
     var mediaElement = getHTMLMediaElement(video, {
-      
+        //title: event.userid,
+        buttons: ['mute-audio'],
         width: width,
-        showOnMouseEnter: false
+        showOnMouseEnter: true
     });
 
     connection.videosContainer.appendChild(mediaElement);
