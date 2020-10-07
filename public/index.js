@@ -351,29 +351,43 @@ connection.onstreamended = function(event) {
 
 function showLocalVideo(event){
 
- event.mediaElement.removeAttribute('src');
-    event.mediaElement.removeAttribute('srcObject');
-    event.mediaElement.muted = true;
-    event.mediaElement.volume = 0;
+//  event.mediaElement.removeAttribute('src');
+//     event.mediaElement.removeAttribute('srcObject');
+//     event.mediaElement.muted = true;
+//     event.mediaElement.volume = 0;
 
-    var video = document.createElement('video');
+//     var video = document.createElement('video');
 
-    try {
-        video.setAttributeNode(document.createAttribute('autoplay'));
-        video.setAttributeNode(document.createAttribute('playsinline'));
-    } catch (e) {
-        video.setAttribute('autoplay', true);
-        video.setAttribute('playsinline', true);
-    }
+//     try {
+//         video.setAttributeNode(document.createAttribute('autoplay'));
+//         video.setAttributeNode(document.createAttribute('playsinline'));
+//     } catch (e) {
+//         video.setAttribute('autoplay', true);
+//         video.setAttribute('playsinline', true);
+//     }
 
-    if(event.type === 'local') {
-      video.volume = 0;
-      try {
-          video.setAttributeNode(document.createAttribute('muted'));
-      } catch (e) {
-          video.setAttribute('muted', true);
-      }
-    }
+//     if(event.type === 'local') {
+//       video.volume = 0;
+//       try {
+//           video.setAttributeNode(document.createAttribute('muted'));
+//       } catch (e) {
+//           video.setAttribute('muted', true);
+//       }
+//     }
+var video = document.createElement('video');
+
+event.mediaElement.setAttributeNode(document.createAttribute('autoplay'));
+event.mediaElement.setAttributeNode(document.createAttribute('playsinline'));
+event.mediaElement.setAttributeNode(document.createAttribute('controls'));
+
+if(event.type === 'local') {
+          video.volume = 0;
+          try {
+              video.setAttributeNode(document.createAttribute('muted'));
+          } catch (e) {
+              video.setAttribute('muted', true);
+          }
+        }
     video.srcObject = event.stream;
 
     var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
