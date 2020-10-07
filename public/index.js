@@ -351,10 +351,10 @@ connection.onstreamended = function(event) {
 
 function showLocalVideo(event){
 
-//  event.mediaElement.removeAttribute('src');
-//     event.mediaElement.removeAttribute('srcObject');
-//     event.mediaElement.muted = true;
-//     event.mediaElement.volume = 0;
+ event.mediaElement.removeAttribute('src');
+    event.mediaElement.removeAttribute('srcObject');
+    event.mediaElement.muted = true;
+    event.mediaElement.volume = 0;
 
 //     var video = document.createElement('video');
 
@@ -376,9 +376,6 @@ function showLocalVideo(event){
 //     }
 var video = document.createElement('video');
 
-event.mediaElement.setAttributeNode(document.createAttribute('autoplay'));
-event.mediaElement.setAttributeNode(document.createAttribute('playsinline'));
-event.mediaElement.setAttributeNode(document.createAttribute('controls'));
 
 if(event.type === 'local') {
           video.volume = 0;
@@ -398,8 +395,14 @@ if(event.type === 'local') {
         showOnMouseEnter: true
     });
 
+    event.mediaElement.setAttributeNode(document.createAttribute('autoplay'));
+    event.mediaElement.setAttributeNode(document.createAttribute('playsinline'));
+    event.mediaElement.setAttributeNode(document.createAttribute('controls'));
+    
     connection.videosContainer.appendChild(mediaElement);
 
+// or
+//document.getElementById('camera').srcObject = yourCameraStream;
  
     setTimeout(function() {
         mediaElement.media.play();
