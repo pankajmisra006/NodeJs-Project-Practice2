@@ -133,7 +133,12 @@ username: 'webrtc@live.com'
 
 });
 
- 
+
+connection.candidates = {
+	turn: true, // relay:true or turn:true
+	stun: true
+};
+
 $( document ).ready(function() {
 
 $('#open-room').on('click',function(){
