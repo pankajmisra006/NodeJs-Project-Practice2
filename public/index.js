@@ -134,212 +134,209 @@ username: 'webrtc@live.com'
 });
 
 
-connection.candidates = {
-	turn: true, // relay:true or turn:true
-	stun: true
-};
+// connection.candidates = {
+// 	turn: true, // relay:true or turn:true
+// 	stun: true
+// };
 
 $( document ).ready(function() {
 
 $('#open-room').on('click',function(){
 
-     connection.open($('#room-id').val(), function(isRoomOpened, roomid, error) {
-        if(isRoomOpened === true) {
-        console.log("your are the host!")
-        //connection.setHostinfo.available=true
-    
-
-
-        }
-        else {
-        //   if(error === 'Room not available') {
-        //     alert('Someone already created this room. Please either join or create a separate room.');
-        //     return;
-        //   }
-        //   alert(error);
-        connection.videosContainer.remove()
-        alert("room already opened! you can join")
+    //  connection.open($('#room-id').val(), function(isRoomOpened, roomid, error) {
+    //     if(isRoomOpened === true) {
+    //     console.log("your are the host!")
+    //     //connection.setHostinfo.available=true
+    //  }
+    //     else {
+    //     //   if(error === 'Room not available') {
+    //     //     alert('Someone already created this room. Please either join or create a separate room.');
+    //     //     return;
+    //     //   }
+    //     //   alert(error);
+    //     //connection.videosContainer.remove()
+    //     alert("room already opened! you can join")
         
-        return
-        }
-    });;
-   
+    //     return
+    //     }
+    // });;
+    connection.open($('#room-id').val())
 
 })
 
 $('#join-room').on('click',function(){
 
-    connection.checkPresence($('#room-id').val(), function(isRoomExist, roomid) {
-        if (isRoomExist === true) {
+    // connection.checkPresence($('#room-id').val(), function(isRoomExist, roomid) {
+    //     if (isRoomExist === true) {
         
-            connection.join(roomid);
-        } else {
-            alert("Please let the host open the meeting")
-        }
-    });
-   
+    //         connection.join(roomid);
+    //     } else {
+    //         alert("Please let the host open the meeting")
+    //     }
+    // });
+    connection.join($('#room-id').val())
 
 })
+})
 
-connection.videosContainer = document.getElementById('videos-container');
-connection.onstream = function(event) {
+//connection.videosContainer = document.getElementById('videos-container');
+// connection.onstream = function(event) {
   
-    var isInitiator = connection.isInitiator;
+//     var isInitiator = connection.isInitiator;
 
    
 
-    // if (isInitiator === true && event.type === 'remote') {
-    //     // initiator recieved stream from someone else
-    //     alert('dear initiator, you just receive a remote stream');
-    // }
+//     // if (isInitiator === true && event.type === 'remote') {
+//     //     // initiator recieved stream from someone else
+//     //     alert('dear initiator, you just receive a remote stream');
+//     // }
 
 
-    var existing = document.getElementById(event.streamid);
-    if(existing && existing.parentNode) {
-      existing.parentNode.removeChild(existing);
-    }
+//     // var existing = document.getElementById(event.streamid);
+//     // if(existing && existing.parentNode) {
+//     //   existing.parentNode.removeChild(existing);
+//     // }
 
 
-    // if (event.type == 'local') {
-    //     if (isInitiator === true && event.type === 'local') {
-    //         // initiator's own stream
-    //         connection.setHost={
-    //             id:event.streamid
-    //         }
-    //         alert('you are initiator');
+//     // if (event.type == 'local') {
+//     //     if (isInitiator === true && event.type === 'local') {
+//     //         // initiator's own stream
+//     //         connection.setHost={
+//     //             id:event.streamid
+//     //         }
+//     //         alert('you are initiator');
 
-    //     }
-    //     showLocalVideo(event);
-    //     return;
-    // }
+//     //     }
+//     //     showLocalVideo(event);
+//     //     return;
+//     // }
 
-    if (event.type == 'remote') {
-        var numberOfUsers = connection.getAllParticipants().length;
-        if (numberOfUsers == 1) {
-            //showLocalVideo(event);
-        } else {
-            //showLocalVideo(event);
-        }
-    }
+//     // if (event.type == 'remote') {
+//     //     var numberOfUsers = connection.getAllParticipants().length;
+//     //     if (numberOfUsers == 1) {
+//     //         //showLocalVideo(event);
+//     //     } else {
+//     //         //showLocalVideo(event);
+//     //     }
+//     // }
 
-    event.mediaElement.removeAttribute('src');
-    event.mediaElement.removeAttribute('srcObject');
-    event.mediaElement.muted = true;
-    event.mediaElement.volume = 0;
+//     // event.mediaElement.removeAttribute('src');
+//     // event.mediaElement.removeAttribute('srcObject');
+//     // event.mediaElement.muted = true;
+//     // event.mediaElement.volume = 0;
 
-    var video = document.createElement('video');
+//     // var video = document.createElement('video');
 
-    try {
-        video.setAttributeNode(document.createAttribute('autoplay'));
-        video.setAttributeNode(document.createAttribute('playsinline'));
-    } catch (e) {
-        video.setAttribute('autoplay', true);
-        video.setAttribute('playsinline', true);
-    }
+//     // try {
+//     //     video.setAttributeNode(document.createAttribute('autoplay'));
+//     //     video.setAttributeNode(document.createAttribute('playsinline'));
+//     // } catch (e) {
+//     //     video.setAttribute('autoplay', true);
+//     //     video.setAttribute('playsinline', true);
+//     // }
 
-    if(event.type === 'local') {
-      video.volume = 0;
-      try {
-          video.setAttributeNode(document.createAttribute('muted'));
-      } catch (e) {
-          video.setAttribute('muted', true);
-      }
-    }
-    console.log(event)
-    video.srcObject = event.stream;
+//     // if(event.type === 'local') {
+//     //   video.volume = 0;
+//     //   try {
+//     //       video.setAttributeNode(document.createAttribute('muted'));
+//     //   } catch (e) {
+//     //       video.setAttribute('muted', true);
+//     //   }
+//     // }
+//     // console.log(event)
+//     // video.srcObject = event.stream;
 
-    var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
-    var mediaElement = getHTMLMediaElement(video, {
-        //title: event.userid,
-        buttons: ['mute-audio'],
-        width: width,
-        showOnMouseEnter: true
-    });
+//     // var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
+//     // var mediaElement = getHTMLMediaElement(video, {
+//     //     //title: event.userid,
+//     //     buttons: ['mute-audio'],
+//     //     width: width,
+//     //     showOnMouseEnter: true
+//     // });
 
-    connection.videosContainer.appendChild(mediaElement);
+//     // connection.videosContainer.appendChild(mediaElement);
 
-    setTimeout(function() {
-        mediaElement.media.play();
-    }, 5000);
+//     // setTimeout(function() {
+//     //     mediaElement.media.play();
+//     // }, 5000);
 
-   // mediaElement.id = event.streamid;
+//    // mediaElement.id = event.streamid;
 
-    // // to keep room-id in cacheconnectToNewUser
+//     // // to keep room-id in cacheconnectToNewUser
 
 
-    // // if(chkRecordConference.checked === true) {
-    // //   btnStopRecording.style.display = 'inline-block';
-    // //   recordingStatus.style.display = 'inline-block';
+//     // // if(chkRecordConference.checked === true) {
+//     // //   btnStopRecording.style.display = 'inline-block';
+//     // //   recordingStatus.style.display = 'inline-block';
 
-    // //   var recorder = connection.recorder;
-    // //   if(!recorder) {
-    // //     recorder = RecordRTC([event.stream], {
-    // //       type: 'video'
-    // //     });
-    // //     recorder.startRecording();
-    // //     connection.recorder = recorder;
-    // //   }
-    // //   else {
-    // //     recorder.getInternalRecorder().addStreams([event.stream]);
-    // //   }
+//     // //   var recorder = connection.recorder;
+//     // //   if(!recorder) {
+//     // //     recorder = RecordRTC([event.stream], {
+//     // //       type: 'video'
+//     // //     });
+//     // //     recorder.startRecording();
+//     // //     connection.recorder = recorder;
+//     // //   }
+//     // //   else {
+//     // //     recorder.getInternalRecorder().addStreams([event.stream]);
+//     // //   }
 
-    // //   if(!connection.recorder.streams) {
-    // //     connection.recorder.streams = [];
-    // //   }
+//     // //   if(!connection.recorder.streams) {
+//     // //     connection.recorder.streams = [];
+//     // //   }
 
-    // //   connection.recorder.streams.push(event.stream);
-    // //   recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
-    // // }
+//     // //   connection.recorder.streams.push(event.stream);
+//     // //   recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
+//     // // }
 
-    // if(event.type === 'local') {
-    //   connection.socket.on('disconnect', function() {
-    //     if(!connection.getAllParticipants().length) {
-    //       location.reload();
-    //     }
-    //   });
-    // }
-}
+//     // if(event.type === 'local') {
+//     //   connection.socket.on('disconnect', function() {
+//     //     if(!connection.getAllParticipants().length) {
+//     //       location.reload();
+//     //     }
+//     //   });
+//     // }
+// }
 
-connection.onstreamended = function(event) {
-    //$("#videos-container").empty()
-    var mediaElement = document.getElementById(event.streamid);
-    // .id==connection.setHost.id) { 
-    //     //host left  end the meeting now for all
-    //     connection.attachStreams.forEach(function(stream) {
-    //         stream.stop();
-    //     });
-    // //     connection.getAllParticipants().forEach(function(participant) {
-    // //         connection.disconnectWith( participant );
-    // //    });
+// connection.onstreamended = function(event) {
+//     //$("#videos-container").empty()
+//     var mediaElement = document.getElementById(event.streamid);
+//     // .id==connection.setHost.id) { 
+//     //     //host left  end the meeting now for all
+//     //     connection.attachStreams.forEach(function(stream) {
+//     //         stream.stop();
+//     //     });
+//     // //     connection.getAllParticipants().forEach(function(participant) {
+//     // //         connection.disconnectWith( participant );
+//     // //    });
        
 
-    //     $("#videos-container").empty()
-    //     //alert("Host has ended the meeting!")
+//     //     $("#videos-container").empty()
+//     //     //alert("Host has ended the meeting!")
         
 
-    // }else{
-    //     mediaElement.parentNode.removeChild(mediaElement);
+//     // }else{
+//     //     mediaElement.parentNode.removeChild(mediaElement);
 
 
-    // }
+//     // }
 
-    if (mediaElement){
-        mediaElement.parentNode.removeChild(mediaElement);
+//     if (mediaElement){
+//         mediaElement.parentNode.removeChild(mediaElement);
 
-    }
+//     }
 
-  };
+//   };
   
 
-  connection.onPeerStateChanged = function(state) {
+//   connection.onPeerStateChanged = function(state) {
     
-    if (state.iceConnectionState.search(/closed|failed/gi) !== -1) {
-        console.error('Peer connection is closed between you & ', state.userid, state.extra, 'state:', state.iceConnectionState);
-    }
-};
+//     if (state.iceConnectionState.search(/closed|failed/gi) !== -1) {
+//         console.error('Peer connection is closed between you & ', state.userid, state.extra, 'state:', state.iceConnectionState);
+//     }
+// };
 
 
-});
 
 
 // connection.getAllParticipants().forEach(function(pid) {
@@ -355,58 +352,58 @@ connection.onstreamended = function(event) {
 //   });
 // });
 
-function showLocalVideo(event){
-    var existing = document.getElementById(event.streamid);
-    if(existing && existing.parentNode) {
-      existing.parentNode.removeChild(existing);
-    }
+// function showLocalVideo(event){
+//     var existing = document.getElementById(event.streamid);
+//     if(existing && existing.parentNode) {
+//       existing.parentNode.removeChild(existing);
+//     }
 
 
-    event.mediaElement.removeAttribute('src');
-    event.mediaElement.removeAttribute('srcObject');
-    event.mediaElement.muted = true;
-    event.mediaElement.volume = 0;
+//     event.mediaElement.removeAttribute('src');
+//     event.mediaElement.removeAttribute('srcObject');
+//     event.mediaElement.muted = true;
+//     event.mediaElement.volume = 0;
 
-    var video = document.createElement('video');
+//     var video = document.createElement('video');
 
-    try {
-        video.setAttributeNode(document.createAttribute('autoplay'));
-        video.setAttributeNode(document.createAttribute('playsinline'));
-    } catch (e) {
-        video.setAttribute('autoplay', true);
-        video.setAttribute('playsinline', true);
-    }
+//     try {
+//         video.setAttributeNode(document.createAttribute('autoplay'));
+//         video.setAttributeNode(document.createAttribute('playsinline'));
+//     } catch (e) {
+//         video.setAttribute('autoplay', true);
+//         video.setAttribute('playsinline', true);
+//     }
 
-    if(event.type === 'local') {
-      video.volume = 0;
-      try {
-          video.setAttributeNode(document.createAttribute('muted'));
-      } catch (e) {
-          video.setAttribute('muted', true);
-      }
-    }
+//     if(event.type === 'local') {
+//       video.volume = 0;
+//       try {
+//           video.setAttributeNode(document.createAttribute('muted'));
+//       } catch (e) {
+//           video.setAttribute('muted', true);
+//       }
+//     }
 
-    video.srcObject = event.stream;
+//     video.srcObject = event.stream;
 
-    var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
-    var mediaElement = getHTMLMediaElement(video, {
-        //title: event.userid,
-        buttons: ['mute-audio'],
-        width: width,
-        showOnMouseEnter: true
-    });
+//     var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
+//     var mediaElement = getHTMLMediaElement(video, {
+//         //title: event.userid,
+//         buttons: ['mute-audio'],
+//         width: width,
+//         showOnMouseEnter: true
+//     });
 
     
-    connection.videosContainer.appendChild(mediaElement);
+//     connection.videosContainer.appendChild(mediaElement);
 
  
-    setTimeout(function() {
-        mediaElement.media.play();
-    }, 5000);
+//     setTimeout(function() {
+//         mediaElement.media.play();
+//     }, 5000);
 
-    mediaElement.id = event.streamid;
+//     mediaElement.id = event.streamid;
 
 
-}
+// }
 
 
