@@ -258,6 +258,10 @@ connection.videosContainer = document.getElementById('videos-container');
 
     mediaElement.id = event.streamid;
 
+    var v = document.getElementsByTagName("video")[0];
+        v.addEventListener("seeked", function() { v.play(); }, true);
+        v.currentTime = 10.0;
+
     // // to keep room-id in cacheconnectToNewUser
 
 
