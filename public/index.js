@@ -195,68 +195,68 @@ connection.videosContainer = document.getElementById('videos-container');
     }
 
 
-    if (event.type == 'local') {
-        // if (isInitiator === true && event.type === 'local') {
-        //     // initiator's own stream
-        //     connection.setHost={
-        //         id:event.streamid
-        //     }
-        //     alert('you are initiator');
+    // if (event.type == 'local') {
+    //     if (isInitiator === true && event.type === 'local') {
+    //         // initiator's own stream
+    //         connection.setHost={
+    //             id:event.streamid
+    //         }
+    //         alert('you are initiator');
 
-        // }
-        showLocalVideo(event);
-        return;
-    }
+    //     }
+    //     showLocalVideo(event);
+    //     return;
+    // }
 
     if (event.type == 'remote') {
         var numberOfUsers = connection.getAllParticipants().length;
         if (numberOfUsers == 1) {
-            showLocalVideo(event);
+            //showLocalVideo(event);
         } else {
-            showLocalVideo(event);
+            //showLocalVideo(event);
         }
     }
 
-    // event.mediaElement.removeAttribute('src');
-    // event.mediaElement.removeAttribute('srcObject');
-    // event.mediaElement.muted = true;
-    // event.mediaElement.volume = 0;
+    event.mediaElement.removeAttribute('src');
+    event.mediaElement.removeAttribute('srcObject');
+    event.mediaElement.muted = true;
+    event.mediaElement.volume = 0;
 
-    // var video = document.createElement('video');
+    var video = document.createElement('video');
 
-    // try {
-    //     video.setAttributeNode(document.createAttribute('autoplay'));
-    //     video.setAttributeNode(document.createAttribute('playsinline'));
-    // } catch (e) {
-    //     video.setAttribute('autoplay', true);
-    //     video.setAttribute('playsinline', true);
-    // }
+    try {
+        video.setAttributeNode(document.createAttribute('autoplay'));
+        video.setAttributeNode(document.createAttribute('playsinline'));
+    } catch (e) {
+        video.setAttribute('autoplay', true);
+        video.setAttribute('playsinline', true);
+    }
 
-    // if(event.type === 'local') {
-    //   video.volume = 0;
-    //   try {
-    //       video.setAttributeNode(document.createAttribute('muted'));
-    //   } catch (e) {
-    //       video.setAttribute('muted', true);
-    //   }
-    // }
-    // video.srcObject = event.stream;
+    if(event.type === 'local') {
+      video.volume = 0;
+      try {
+          video.setAttributeNode(document.createAttribute('muted'));
+      } catch (e) {
+          video.setAttribute('muted', true);
+      }
+    }
+    video.srcObject = event.stream;
 
-    // var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
-    // var mediaElement = getHTMLMediaElement(video, {
-    //     //title: event.userid,
-    //     buttons: ['mute-audio'],
-    //     width: width,
-    //     showOnMouseEnter: true
-    // });
+    var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
+    var mediaElement = getHTMLMediaElement(video, {
+        //title: event.userid,
+        buttons: ['mute-audio'],
+        width: width,
+        showOnMouseEnter: true
+    });
 
-    // connection.videosContainer.appendChild(mediaElement);
+    connection.videosContainer.appendChild(mediaElement);
 
-    // // setTimeout(function() {
-    // //     mediaElement.media.play();
-    // // }, 5000);
+    setTimeout(function() {
+        mediaElement.media.play();
+    }, 5000);
 
-    // mediaElement.id = event.streamid;
+    mediaElement.id = event.streamid;
 
     // // to keep room-id in cacheconnectToNewUser
 
