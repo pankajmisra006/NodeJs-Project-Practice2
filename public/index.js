@@ -240,6 +240,7 @@ connection.onstream = function(event) {
           video.setAttribute('muted', true);
       }
     }
+    console.log(event)
     video.srcObject = event.stream;
 
     var width = parseInt(connection.videosContainer.clientWidth / 3) - 20;
@@ -256,7 +257,7 @@ connection.onstream = function(event) {
         mediaElement.media.play();
     }, 5000);
 
-    mediaElement.id = event.streamid;
+   // mediaElement.id = event.streamid;
 
     // // to keep room-id in cacheconnectToNewUser
 
