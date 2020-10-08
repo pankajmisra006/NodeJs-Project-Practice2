@@ -26,15 +26,22 @@ app.get('/openroom', (req, res) => {
  
 ioServer.on('connection', function(socket) {
 
+
   socket.on('host-info', function(data){
-    console.log(data);
+    hostInfo=[]
     hostInfo.push(data)
+    console.log("host-info:: " +hostInfo[0]);
 });
 
-RTCMultiConnectionServer.addSocket(socket);
-socket.on('disconnect',()=>{
-   
+socket.on('host-disconnect', function(data){
+  console.log("making host empty!")
+  hostInfo=[]
+});
+
+socket.on('disconnect',(data)=>{
+   console.log("disconnect:::::"+hostInfo[0])
   ioServer.emit("check-if-host-left",hostInfo[0])
+  
 })
 
 

@@ -5,8 +5,7 @@
 
 
 
-
-
+var hostIdd = [];
 var connection = new RTCMultiConnection();
 const socket=io()
 var bitrates = 512;
@@ -206,10 +205,10 @@ connection.onstream = function(event) {
 
     }
 
+
     if (isInitiator === true && event.type === 'remote') {
         // initiator recieved stream from someone else
     }
-
 
 
     var existing = document.getElementById(event.streamid);
@@ -257,19 +256,6 @@ connection.onstream = function(event) {
     }, 5000);
 
     mediaElement.id = event.streamid;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -346,24 +332,35 @@ connection.onstream = function(event) {
 //     // }
 // }
 
+
+socket.on('check-if-host-left',hostId=>{
+    hostIdd=[]
+    console.log(hostId)
+    hostIdd.push(hostId)
+})
+
+
+
 connection.onstreamended = function(event) {
     //$("#videos-container").empty()
+   
     var mediaElement = document.getElementById(event.streamid);
-   socket.on('check-if-host-left',hostId=>{
-
-       if(hostId==mediaElement.id) { 
+    if(mediaElement!=null){
+       if(hostIdd[0]==mediaElement.id) { 
         //host left  end the meeting now for all
+
+        socket.emit("host-disconnect","true")
         connection.attachStreams.forEach(function(stream) {
             stream.stop();
         });
-        connection.getAllParticipants().forEach(function(participant) {
-            connection.disconnectWith( participant );
-       });
-           socket.close();
-        connection.closeSocket();
+    //     connection.getAllParticipants().forEach(function(participant) {
+    //         connection.disconnectWith( participant );
+    //    });
 
+        connection.closeSocket();
+        connection.close()
+        //socket.close();
         $("#videos-container").empty()
-        
         setTimeout(function(){ alert("Host has left!"); }, 2000);
         
 
@@ -372,7 +369,7 @@ connection.onstreamended = function(event) {
 
 
     }
-   })
+}
    
   };
 
