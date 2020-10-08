@@ -8,6 +8,7 @@
 
 
 var connection = new RTCMultiConnection();
+const socket=io()
 var bitrates = 512;
 var resolutions = 'HD';
 var videoConstraints = {};
@@ -94,7 +95,10 @@ connection.sdpConstraints.mandatory = {
 
 
 
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+//connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+
+
+connection.socketURL = 'http://localhost:3010/';
 
 
 
@@ -130,6 +134,27 @@ username: 'webrtc@live.com'
 // 	stun: true
 // };
 
+
+
+// connection.onUserStatusChanged = function(event) {
+//     if (sessionDetails.userType == "participant" && event.status === 'offline') { //manually set by me for all participants using a cookie
+//         reCheckRoomPresence(); //window.location.reload(false); this works on chrome/firefox
+//     }
+// };
+
+// function reCheckRoomPresence(){
+//     var findWhenCustomerReconnectsToTheRoom = setInterval(function(){
+//         connection.checkPresence(sessionDetails.token, function(isRoomExists) {
+//             if(isRoomExists) {
+//                 connection.join(sessionDetails.token); //sessionDetails.token is room-id
+//                 clearInterval(findWhenCustomerReconnectsToTheRoom);
+//                 return;
+//             }
+//         });
+//     }, 1);
+// }
+
+
 $( document ).ready(function() {
 
 $('#open-room').on('click',function(){
@@ -138,6 +163,7 @@ $('#open-room').on('click',function(){
         if(isRoomOpened === true) {
         console.log("your are the host!")
         //connection.setHostinfo.available=true
+     
      }
         else {
         //   if(error === 'Room not available') {
@@ -173,6 +199,18 @@ connection.videosContainer = document.getElementById('videos-container');
 connection.onstream = function(event) {
   
     var isInitiator = connection.isInitiator;
+    if (isInitiator === true && event.type === 'local') {
+        // initiator's own stream  //host
+        alert("initiator")
+        socket.emit('host-info', event.streamid);
+
+    }
+
+    if (isInitiator === true && event.type === 'remote') {
+        // initiator recieved stream from someone else
+    }
+
+
 
     var existing = document.getElementById(event.streamid);
     if(existing && existing.parentNode) {
@@ -311,34 +349,47 @@ connection.onstream = function(event) {
 connection.onstreamended = function(event) {
     //$("#videos-container").empty()
     var mediaElement = document.getElementById(event.streamid);
-    // .id==connection.setHost.id) { 
-    //     //host left  end the meeting now for all
-    //     connection.attachStreams.forEach(function(stream) {
-    //         stream.stop();
-    //     });
-    // //     connection.getAllParticipants().forEach(function(participant) {
-    // //         connection.disconnectWith( participant );
-    // //    });
-       
+   socket.on('check-if-host-left',hostId=>{
 
-    //     $("#videos-container").empty()
-    //     //alert("Host has ended the meeting!")
+       if(hostId==mediaElement.id) { 
+        //host left  end the meeting now for all
+        connection.attachStreams.forEach(function(stream) {
+            stream.stop();
+        });
+        connection.getAllParticipants().forEach(function(participant) {
+            connection.disconnectWith( participant );
+       });
+           socket.close();
+        connection.closeSocket();
+
+        $("#videos-container").empty()
+        
+        setTimeout(function(){ alert("Host has left!"); }, 2000);
         
 
-    // }else{
-    //     mediaElement.parentNode.removeChild(mediaElement);
-
-
-    // }
-
-    if (mediaElement){
+    }else{
         mediaElement.parentNode.removeChild(mediaElement);
 
-    }
 
+    }
+   })
+   
   };
+
+
+//   connection.onUserStatusChanged = function(event) {
+//     if (sessionDetails.userType == "participant" && event.status === 'offline') { //manually set by me for all participants using a cookie
+//         reCheckRoomPresence(); //window.location.reload(false); this works on chrome/firefox
+//     }
+// };
+
   
 })
+
+// socket.on('message',message=>{
+
+//     console.log(message)
+// })
 //   connection.onPeerStateChanged = function(state) {
     
 //     if (state.iceConnectionState.search(/closed|failed/gi) !== -1) {

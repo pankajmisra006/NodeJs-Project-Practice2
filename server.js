@@ -1,4 +1,4 @@
-
+var hostInfo = [];
 const RTCMultiConnectionServer = require('rtcmulticonnection-server');
 const moment=require('moment');  
 const express = require('express')
@@ -25,7 +25,19 @@ app.get('/openroom', (req, res) => {
   })
  
 ioServer.on('connection', function(socket) {
-    RTCMultiConnectionServer.addSocket(socket);
+
+  socket.on('host-info', function(data){
+    console.log(data);
+    hostInfo.push(data)
+});
+
+RTCMultiConnectionServer.addSocket(socket);
+socket.on('disconnect',()=>{
+   
+  ioServer.emit("check-if-host-left",hostInfo[0])
+})
+
+
 });
 
 
