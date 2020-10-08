@@ -95,10 +95,10 @@ connection.sdpConstraints.mandatory = {
 
 
 
-//connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
 
-connection.socketURL = 'http://localhost:3010/';
+//connection.socketURL = 'http://localhost:3010/';
 
 
 
@@ -201,7 +201,7 @@ connection.onstream = function(event) {
     var isInitiator = connection.isInitiator;
     if (isInitiator === true && event.type === 'local') {
         // initiator's own stream  //host
-        alert("initiator")
+        //alert("initiator")
         socket.emit('host-info', event.streamid);
 
     }
