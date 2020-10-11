@@ -38,15 +38,17 @@ socket.on('host-disconnect', function(data){
   hostInfo=[]
 });
 
-if(hostInfo.length>0){
-ioServer.emit("getting-hostid",hostInfo[0])
-}
-// socket.on('disconnect',(data)=>{
-//    if(hostInfo[0]!=undefined){
-//     console.log("disconnect:::::"+hostInfo[0])
+// if(hostInfo.length>0){
+//   console.log("calling")
+// ioServer.emit("getting-hostid",hostInfo[0])
+// }
+socket.on('disconnect',(data)=>{
+   if(hostInfo[0]!=undefined){
+    console.log("disconnect:::::"+hostInfo[0])
+    ioServer.emit("getting-hostid",hostInfo[0])
 
-//    }
-// })
+   }
+})
 
 
 });

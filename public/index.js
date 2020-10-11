@@ -332,10 +332,40 @@ connection.onstream = function(event) {
 //     // }
 // }
 
-
+var mediaElement=''
 socket.on("getting-hostid",hostId=>{
     hostIdd=[]
+
     hostIdd.push(hostId)
+    if(mediaElement!=null){
+        if(hostIdd[0]==mediaElement.id) { 
+         //host left  end the meeting now for all
+ 
+         socket.emit("host-disconnect",hostIdd[0])
+         connection.attachStreams.forEach(function(stream) {
+             stream.stop();
+         });
+     //     connection.getAllParticipants().forEach(function(participant) {
+     //         connection.disconnectWith( participant );
+     //    });
+ 
+         connection.closeSocket();
+         connection.close()
+         //socket.close();
+         $("#videos-container").empty()
+         setTimeout(function(){ alert("Host has left!"); }, 2000);
+         
+ 
+     }else{
+         mediaElement.parentNode.removeChild(mediaElement);
+ 
+ 
+     }
+ }
+
+
+
+
 })
 
 
@@ -343,33 +373,8 @@ socket.on("getting-hostid",hostId=>{
 connection.onstreamended = function(event) {
     //$("#videos-container").empty()
    
-    var mediaElement = document.getElementById(event.streamid);
-    if(mediaElement!=null){
-       if(hostIdd[0]==mediaElement.id) { 
-        //host left  end the meeting now for all
+     mediaElement = document.getElementById(event.streamid);
 
-        socket.emit("host-disconnect",hostIdd[0])
-        connection.attachStreams.forEach(function(stream) {
-            stream.stop();
-        });
-    //     connection.getAllParticipants().forEach(function(participant) {
-    //         connection.disconnectWith( participant );
-    //    });
-
-        connection.closeSocket();
-        connection.close()
-        //socket.close();
-        $("#videos-container").empty()
-        setTimeout(function(){ alert("Host has left!"); }, 2000);
-        
-
-    }else{
-        mediaElement.parentNode.removeChild(mediaElement);
-
-
-    }
-}
-   
   };
 
 
@@ -381,6 +386,17 @@ connection.onstreamended = function(event) {
 
   
 })
+
+// function startCheckingForOwnerOpenRoom() {
+// 	connection.checkPresence(roomid, function(isOwnerOnline) {
+// 		if (isOwnerOnline === false) {
+//         }
+//         console.log
+//     })
+// }
+
+
+
 
 // socket.on('message',message=>{
 
