@@ -39,9 +39,11 @@ socket.on('host-disconnect', function(data){
 });
 
 socket.on('disconnect',(data)=>{
-   console.log("disconnect:::::"+hostInfo[0])
+   if(hostInfo[0]!=undefined){
+    console.log("disconnect:::::"+hostInfo[0])
+
   ioServer.emit("check-if-host-left",hostInfo[0])
-  
+   }
 })
 
 

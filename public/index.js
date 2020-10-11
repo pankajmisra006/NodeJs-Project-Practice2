@@ -335,7 +335,6 @@ connection.onstream = function(event) {
 
 socket.on('check-if-host-left',hostId=>{
     hostIdd=[]
-    console.log(hostId)
     hostIdd.push(hostId)
 })
 
@@ -349,7 +348,7 @@ connection.onstreamended = function(event) {
        if(hostIdd[0]==mediaElement.id) { 
         //host left  end the meeting now for all
 
-        socket.emit("host-disconnect","true")
+        socket.emit("host-disconnect",hostIdd[0])
         connection.attachStreams.forEach(function(stream) {
             stream.stop();
         });
