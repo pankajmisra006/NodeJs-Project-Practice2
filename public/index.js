@@ -333,7 +333,7 @@ connection.onstream = function(event) {
 // }
 
 
-socket.on('check-if-host-left',hostId=>{
+socket.on("getting-hostid",hostId=>{
     hostIdd=[]
     hostIdd.push(hostId)
 })
